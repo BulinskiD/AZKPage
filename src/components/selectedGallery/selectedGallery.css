@@ -1,0 +1,54 @@
+.selectedGallery{
+    position: relative;
+    min-height: 100vh;
+}
+.paint{
+    margin-top: 3%;
+    display: flex;
+    cursor: pointer;
+}
+
+.thumb{
+    width: 20%;
+}
+
+
+.description{
+    width: 40%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.description span{
+    padding-left: 30%;
+}
+
+.galleryShape{
+        position: absolute;
+        width: 30%;
+        height: 100%;
+        clip-path: polygon(80% 0%, 0% 100%, 0% 60%);
+        background: black;
+}
+
+.close{
+    position: sticky;
+    right: 5%;
+    top: 2%;
+    z-index: 10;
+    font-size: 3vmin;
+    border: solid 2px black;
+    padding: 1%;
+}
+
+
+@media(max-width: 992px){
+    .paint{
+        justify-content: center;
+    }
+
+    .close{
+        display: none;
+    }
+}

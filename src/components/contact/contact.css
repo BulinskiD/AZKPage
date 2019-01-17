@@ -1,0 +1,27 @@
+#contact{
+    position: relative;
+}
+
+
+.contactData{
+    position: absolute;
+    top: 60%;
+    left: 3%;
+    font-size: 3vmin;
+}
+
+.form-row{
+    margin-top: 3%;
+}
+
+button.btn.btn-dark{
+    margin-top: 3%;
+    font-family: Crimson Text;
+    font-size: 3vmin;
+
+}
+
+.contact-form{
+    margin-top: 15vh;
+    margin-left:10vmin;
+}

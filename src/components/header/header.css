@@ -1,0 +1,124 @@
+body{
+    width: 100%;
+    min-width: 300px;
+    font-family: Crimson Text;
+}
+
+nav{
+    border-bottom: solid black 2px;
+    box-sizing: border-box;
+}
+
+#root{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+a{
+    cursor: pointer;
+}
+.logo-path{
+    width:99%;
+    height: 98.5%;
+    clip-path: polygon(0 0, 70% 0%, 100% 100%, 0 60%);
+    background: white;
+}
+.logo-content{
+    display: flex;
+    align-items: center;
+    height: 70%;
+}
+
+.border-logo-path{
+    clip-path: polygon(0 0, 70% 0%, 100% 100%, 0 60%);
+    width: 30vmax;
+    height: 20vmax;
+    background: black;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 10;
+}
+
+.logo-path img{
+    height: 80%;
+    width: auto;
+    margin-left: 7%;
+}
+
+
+.logo-path span{
+    display: block;
+    font-size: 3vmin;
+}
+
+.logo{
+    text-decoration: none;
+    color: black;
+}
+.logo:hover{
+    color: black;
+}
+/*END OF LOGO */
+
+div.navbar-nav{
+    justify-content: space-around;
+    margin-left: 30%;
+    width: 100%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+}
+
+.bg-light{
+    background-color: white!important;
+}
+
+a.nav-link{
+    font-size: 3.5vmin;
+    border: 2px white solid;
+}
+
+a.nav-link:hover{
+    border: solid 2px grey;
+}
+
+
+
+@media(max-width: 992px){
+
+    .border-logo-path{
+        width:40vmin;
+        height: 40vmin;
+        min-width: 350px;
+    }
+    div.navbar-nav{
+        margin-top: 0;
+        margin-bottom: 0%;
+        margin-left: 70%;
+        width: 30%;
+    }
+    a.nav-link{
+        font-size: 4.5vmin;
+    }
+    .logo-path span{
+        display: block;
+        font-size: 2vw;
+    }
+    .logo-path img{
+        height: 80%;
+        width: auto;
+        margin-left: 7%;
+    }
+}
+
+
+@media(max-width: 768px){
+    .border-logo-path{
+        height: 30vmin;
+        min-width: 100px;
+    }
+    .logo-path span{
+        display: block;
+        font-size: 1.8vmin;
+    }
+}
