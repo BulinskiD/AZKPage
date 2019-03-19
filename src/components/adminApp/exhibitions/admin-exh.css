@@ -1,0 +1,49 @@
+.admin-page-content{
+    width: 60%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.admin-add-container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.exh-admin{
+    position: relative;
+    padding: 1%;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.exh-admin:hover{
+    background-color: rgba(0, 0, 0, .15);
+}
+
+.exh-buttons{
+    position: absolute;
+    right: 0%;
+    width: 7%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.icon{
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 2%;
+    transition: all 0.2s;
+}
+
+.icon:hover{
+    color: #AAA;
+}
+
+#openModal{
+    display: none;
+}
+
+select .form-control{
+    padding: 0;
+    margin: 0;
+}

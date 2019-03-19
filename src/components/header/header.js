@@ -7,7 +7,8 @@ import React from 'react';
 
 class Header extends React.Component{
 
-  scrollToTop= ()=> {
+  scrollToTop= (e)=> {
+    e.preventDefault();
     scroll.scrollToTop();
     scrollSpy.update();
   };
@@ -33,7 +34,7 @@ class Header extends React.Component{
         return(
         <header>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a onClick={this.scrollToTop} className="navbar-brand">
+        <a onClick={ this.scrollToTop} href="/" className="navbar-brand">
         <div className="border-logo-path"><div className="logo-path"><div className="logo-content">
         <img src="img/logo.jpg" alt="logo" className="img-fluid" />
         <span>ALINA <br /> ZACHARIASZ <br />KUCIAKOWSKA<br /></span>

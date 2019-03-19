@@ -4,7 +4,7 @@ import './footer.css';
 
 export default ()=>{
     return (
-        <footer><div className="footerInfo">Helloo</div></footer>
+        <footer><div className="footerInfo">Hello from Footer</div></footer>
 
     );
 

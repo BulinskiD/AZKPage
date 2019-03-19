@@ -2,41 +2,55 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Element } from 'react-scroll'
 import { animateScroll as scroll} from 'react-scroll';
-import './gallery.css';
+import styleApi from '../../api/styles';
+import onErrorHandler from '../../helperFunctions/onErrorHandler';
 
 import SelectedGallery from '../selectedGallery/selectedGallery';
+import './gallery.css';
 
 class Gallery extends React.Component{
 
-    state={selectedGalleryId: null, selectedGalleryTitle: ''};
+    state={selectedGalleryId: null, 
+           selectedGalleryTitle: '',
+           styleNames: []};
     
 
-    //To be replaced by fetching data from api
-    styleNames=[{styleId: 1, title:'Malarstwo', src:'img/malarstwo.jpg'},
-                 {styleId: 2, title:'Pastele', src: 'img/pastele.jpg'},
-                 {styleId: 3, title:'Akwarele', src: 'img/akwarele.jpg'},
-                 {styleId: 4, title:'Grafika', src:'img/grafika.jpg' }];
-
-
     onGallerySelected= (style)=>{
-        this.setState({selectedGalleryId: style.styleId, selectedGalleryTitle: style.title});
+        this.setState({selectedGalleryId: style.styleID, selectedGalleryTitle: style.name});
+    }
+
+
+    async componentDidMount(){
+     styleApi.get('index/').then((response=>{
+        this.setState({styleNames: response.data});
+     })).catch((error)=>{
+        let verifiedError = onErrorHandler(error);
+        if(verifiedError===404){
+            //No exh available 
+        }
+     });  
     }
 
     renderMenu= ()=>{
-        return this.styleNames.map(style=>{
-            return (<div onClick={()=>this.onGallerySelected(style)} key={style.styleId} className="picture" style={{ backgroundImage: `url(${style.src})`}}>
-            <span className="center">{style.title}</span></div>);
+        return this.state.styleNames.map(style=>{
+            return (<div onClick={()=>this.onGallerySelected(style)} key={style.styleID} 
+                    className="picture" style={{ backgroundImage: `url(${style.picSrc})`}}>
+                    <span className="center">{style.name}</span></div>);
             });
         }
 
     
     closeGallery= ()=>{
-        this.setState({selectedGalleryId: null, selectedGalleryTitle: ''});
         let offset=ReactDOM.findDOMNode(this)
         .getBoundingClientRect().top;
         scroll.scrollMore(offset);
+        this.setState({selectedGalleryId: null, selectedGalleryTitle: ''});
     }
 
+    closeGalleryOnError= (error) =>{
+        this.setState({selectedGalleryId: null, selectedGalleryTitle: ''});
+        console.log(error)
+    }
 
 
     render(){
@@ -51,7 +65,12 @@ class Gallery extends React.Component{
         </div>
         </div>
         </div>
-        <Element name="selectedGallery"><SelectedGallery closeGallery={this.closeGallery} id={this.state.selectedGalleryId} title={this.state.selectedGalleryTitle} /></Element>
+        {this.state.selectedGalleryId!==null ? 
+        <Element name="selectedGallery"><SelectedGallery 
+                                         closeGallery={this.closeGallery} 
+                                         closeGalleryOnError= {this.closeGalleryOnError}
+                                         id={this.state.selectedGalleryId} 
+                                         title={this.state.selectedGalleryTitle}/></Element> : ''}
         </div>
     );
 }

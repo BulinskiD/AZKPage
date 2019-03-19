@@ -3,16 +3,16 @@
 }
 
 .galleryMenu{
-    margin-top: 10vmin;
+    margin-top: 12vmin;
     display: flex;
     justify-content: space-between;
     margin-left: 5%;
     margin-right: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 10vmin;
 }
 
 .picture{
-    height: 70vh;
+    height: 65vh;
     background: grey;
     flex-basis: 20vmin;
     writing-mode: vertical-lr;
