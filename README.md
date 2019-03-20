@@ -10,3 +10,5 @@ WORKING
 UNDER DEVELOPMENT
 - Validation of forms
 - Error handling
+- Storing Json Web Token
+- Page displaying on medium and small screens
