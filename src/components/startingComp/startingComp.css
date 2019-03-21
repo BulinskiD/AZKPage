@@ -13,7 +13,8 @@ position: absolute;
 clip-path: polygon(5% 70%, 100% 10%, 85% 95%);
 background: white;
 z-index: 3;
-background: url('./img/triangle1.JPG');
+background: url('./img/triangle1.JPG') no-repeat;
+background-size: cover;
 background-position: top;
 overflow: hidden;
 }
@@ -25,7 +26,8 @@ overflow: hidden;
     left: 21%;
     clip-path: polygon(0% 80%, 60% 0%, 75% 0%, 100% 60%);
     background: grey;
-    background: url('./img/triangle2.JPG');
+    background: url('./img/triangle2.JPG') no-repeat;
+    background-size: cover;
     background-position: top;
     overflow: hidden;
     z-index: 4;
@@ -40,7 +42,8 @@ overflow: hidden;
     background:white;
     z-index:3;
     overflow: hidden;
-    background: url('./img/triangle3.jpg');
+    background: url('./img/triangle3.jpg') no-repeat;
+    background-size: cover;
     background-position: top;
     z-index:3;
 }
@@ -53,7 +56,14 @@ overflow: hidden;
     clip-path: polygon(100% 70%, 100% 45%, 80% 0%, 70% 0%, 0% 90%);
     background: grey;
     overflow: hidden;
-    background: url('./img/triangle4.JPG');
+    background: url('./img/triangle4.JPG') no-repeat;
+    background-size: cover;
     background-position: top;
     z-index: 4;
+}
+
+@media(max-width: 992px){
+    .content{
+        height: 50vmin;
+    }
 }

@@ -25,3 +25,17 @@ button.btn.btn-dark{
     margin-top: 15vh;
     margin-left:10vmin;
 }
+
+@media(max-width: 992px){
+
+    .contact-form{
+        margin-top: 7vh;
+        margin-left: 0;
+    }
+
+    .form-row{
+        margin-top: 10%;
+        margin-bottom: 5%;
+    }
+
+}

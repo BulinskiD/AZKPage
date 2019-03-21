@@ -30,7 +30,7 @@ export default () => {
                     </div>
                     <div className="form-row">
                         <label htmlFor="content" className="col-lg-2">Treść wiadomości:</label>
-                        <textarea type="content" className="form-control col-lg-5" id="content" defaultValue="Treść wiadomości" />
+                        <textarea type="content" className="form-control col-lg-5" id="content" rows="5" />
                     </div>
 
                     <button className="btn btn-dark" name="proba">Prześlij</button>

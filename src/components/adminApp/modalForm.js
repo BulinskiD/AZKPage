@@ -17,7 +17,16 @@ const modalForm=(props) =>{
                             <div className="modal-header">
                                 <h5 className="modal-title">{props.title}</h5>
                             </div>
-                            {props.form}
+
+                            <form className="col-8 offset-2" onSubmit={(e) => { e.preventDefault(); props.id === null ? props.add() : props.edit() }}>
+                                <div className="modal-body">
+                                    {props.children}
+                                </div>
+                            <div className="modal-footer">
+                                <button type="button" id="cancel" className="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                                <button type="submit" className="btn btn-success">Dodaj!</button>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

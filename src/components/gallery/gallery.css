@@ -18,6 +18,8 @@
     writing-mode: vertical-lr;
     text-orientation: upright;
     display: flex;
+    background-repeat: no-repeat;
+    background-size: cover;
     flex-direction: column;
     justify-content: center;
     cursor: pointer;
@@ -64,5 +66,9 @@
 @media(max-width: 768px){
     .picture{
         margin-left: 5%;
+    }
+
+    .picture:first-child{
+        margin-left: 0;
     }
 }

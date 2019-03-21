@@ -131,8 +131,7 @@ class StylesAdmin extends React.Component{
 
     renderModal= () =>{
     let form= (
-        <form className="col-8 offset-2" onSubmit={(e)=>{e.preventDefault(); this.state.styleID!==null ? this.editStyle(e): this.addStyle(e)}}>
-        <div className="modal-body">
+        <>
             <div className="form-group row">
                 <label htmlFor="name">Nazwa</label>
                 <input  className="form-control" onChange={(e)=>this.setState({name: e.target.value})} value={this.state.name} type='text' name='name' />
@@ -141,14 +140,13 @@ class StylesAdmin extends React.Component{
                 <label htmlFor="picture">Zdjęcie</label>
                 <input className="form-control" type='file' id='picture' name='picture' />
             </div>
-            <div className="modal-footer">
-                        <button type="button" id="cancel" className="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                        <button type="submit" className="btn btn-success" >Dodaj!</button>
-            </div>
-        </div>
-        </form>);
+        </>
+        );
 
-        return <ModalForm title={'Zarządzaj stylami'} form={form} openBlankModal={this.openBlankModal} />;
+        return (
+        <ModalForm title={'Zarządzaj technikami'} id={this.state.styleID} add={this.addStyle} edit={this.editStyle} openBlankModal={this.openBlankModal}>
+            {form}
+        </ModalForm>);
     }
 
 

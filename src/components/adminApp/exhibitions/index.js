@@ -118,8 +118,7 @@ class exhibitionsAdmin extends React.Component {
 
     renderModal = () => {
         const form = (
-            <form className="col-8 offset-2" onSubmit={(e) => { e.preventDefault(); this.state.exhID === null ? this.addExh() : this.editExh() }}>
-                <div className="modal-body">
+             <>
                     <div className="form-group row mt-3">
                         <label htmlFor="place">Miejsce wystawy</label>
                         <input
@@ -149,17 +148,13 @@ class exhibitionsAdmin extends React.Component {
                             name="date"
                             type="date" />
                     </div>
-
-                </div>
-                <div className="modal-footer">
-                    <button type="button" id="cancel" className="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                    <button type="submit" className="btn btn-success">Dodaj!</button>
-                </div>
-            </form>);
+                </>);
 
 
         return (
-            <ModalForm title={'Zarządzaj wystawami'} form={form} openBlankModal={this.openBlankModal}/>
+            <ModalForm title={'Zarządzaj wystawami'} id={this.state.exhID} add={this.addExh} edit={this.editExh} openBlankModal={this.openBlankModal}>
+                {form}
+            </ModalForm>
         );
     }
 

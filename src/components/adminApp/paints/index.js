@@ -55,7 +55,6 @@ class PaintsAdmin extends React.Component{
     }
 
     generatePaintFromState = () =>{
-        
         return {
             title: this.state.title,
             src: this.state.src,
@@ -196,8 +195,7 @@ class PaintsAdmin extends React.Component{
 
     renderModalForm=()=>{
         let form=(
-            <form className="col-8 offset-2" onSubmit={(e)=>{e.preventDefault(); this.state.paintID!==null ? this.onEditPaint(e) : this.onAddPaint(e)}}>
-                <div className="modal-body">
+               <>
                     <div className="form-group row">
                         <label htmlFor="title">Tytuł</label>
                         <input className="form-control" onChange={(e) => this.setState({ title: e.target.value })} value={this.state.title} type='text' name='name' />
@@ -220,17 +218,14 @@ class PaintsAdmin extends React.Component{
                         <label htmlFor="picture">Zdjęcie</label>
                         <input className="form-control" type='file' id='picture' name='picture' />
                     </div>
-                    <div className="modal-footer">
-                        <button type="button" id="cancel" className="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                        <button type="submit" className="btn btn-success" >Dodaj!</button>
-                    </div>
-                </div>
-            </form>
+                </>
         );
 
 
         return(
-        <ModalForm title={'Zarządzaj obrazami'} form={form} openBlankModal={this.openBlankModal} />
+        <ModalForm title={'Zarządzaj obrazami'} id={this.state.paintID} add={this.onAddPaint} edit={this.onEditPaint} openBlankModal={this.openBlankModal}>
+            {form}
+        </ModalForm>
         );
     };
 

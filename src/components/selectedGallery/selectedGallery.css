@@ -63,10 +63,24 @@ img.img-thumbnail{
 
 @media(max-width: 992px){
     .paint{
+        flex-direction: row-reverse;
         justify-content: center;
+        height: 22vmax;
+    }
+
+    .thumb{
+        width: 60%;
+        min-height: 20vmax;
     }
 
     .close{
         display: none;
+    }
+
+    .description span:first-child{
+        font-size: 1.3rem;
+    }
+    .description span{
+        padding-left: 0;
     }
 }

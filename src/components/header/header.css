@@ -87,9 +87,8 @@ a.nav-link:hover{
 @media(max-width: 992px){
 
     .border-logo-path{
-        width:40vmin;
-        height: 40vmin;
-        min-width: 350px;
+        width: 35vmin;
+        height: 25vmin;
     }
     div.navbar-nav{
         margin-top: 0;
@@ -114,11 +113,14 @@ a.nav-link:hover{
 
 @media(max-width: 768px){
     .border-logo-path{
-        height: 30vmin;
         min-width: 100px;
     }
     .logo-path span{
         display: block;
         font-size: 1.8vmin;
+    }
+
+    .logo-path{
+        background: white;
     }
 }
