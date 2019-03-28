@@ -20,6 +20,12 @@ class PaintsAdmin extends React.Component{
             styleID: 0
     }
 
+    formErrors= {
+        title: null,
+        xdim: null,
+        ydim: null
+    }
+
     componentDidMount(){
         if(this.state.styles===null){
             
@@ -36,14 +42,14 @@ class PaintsAdmin extends React.Component{
                 if(verifiedError === 404){
                     this.setState({ error: 'Brak wystaw do wyświetlenia' });
                 }
-                console.log(error);
+
             });
         }
     }
 
 
 
-    handleChange= async (styleID)=>{
+    handleChange= (styleID)=>{
         paintApi.get(`index/${styleID}`).then(response=>{
             this.setState({paints: response.data, error: null, selectedStyleID: styleID});
         }).catch(error=>{
@@ -98,7 +104,6 @@ class PaintsAdmin extends React.Component{
                 if(verifiedError === 404){
                     // Not found paint  
                 }
-                console.log(error);
         });
     };
 
@@ -121,7 +126,6 @@ class PaintsAdmin extends React.Component{
                 if(verifiedError === 400){
                     // Error on validation
                 }
-                console.log(error);
         });
     };
 
@@ -135,7 +139,6 @@ class PaintsAdmin extends React.Component{
             if(verifiedError === 404){
                 // Not found paint to delete
             }
-            console.log(error);
         });
     }
 
@@ -198,15 +201,21 @@ class PaintsAdmin extends React.Component{
                <>
                     <div className="form-group row">
                         <label htmlFor="title">Tytuł</label>
-                        <input className="form-control" onChange={(e) => this.setState({ title: e.target.value })} value={this.state.title} type='text' name='name' />
+                        <input className="form-control" onChange={(e) =>{ e.target.value.length > 3 ? this.formErrors.title= true : this.formErrors.title= false; 
+                                                                          this.setState({ title: e.target.value })}} 
+                                                                          value={this.state.title} type='text' name='name' />
                     </div>
                     <div className="form-group row">
                         <label htmlFor="xdim">Szerokość</label>
-                        <input className="form-control" onChange={(e) => this.setState({ xdim: e.target.value })} value={this.state.xdim} type='text' name='xdim' />
+                        <input className="form-control" onChange={(e) =>{e.target.value > 50 && e.target.value < 10000 ? this.formErrors.xdim = true : this.formErrors.xdim = false;
+                                                                        this.setState({ xdim: e.target.value })}}
+                                                                        value={this.state.xdim} type='text' name='xdim' />
                     </div>
                     <div className="form-group row">
                         <label htmlFor="ydim">Wysokość</label>
-                        <input className="form-control" onChange={(e) => this.setState({ ydim: e.target.value })} value={this.state.ydim} type='text' name='ydim' />
+                        <input className="form-control" onChange={(e) =>{e.target.value > 50 && e.target.value < 10000 ? this.formErrors.ydim = true : this.formErrors.ydim = false;
+                                                                 this.setState({ ydim: e.target.value })}}
+                                                                 value={this.state.ydim} type='text' name='ydim' />
                     </div>
                     <div className="form-group row">
                         <label htmlFor="style">Technika</label>
@@ -223,7 +232,13 @@ class PaintsAdmin extends React.Component{
 
 
         return(
-        <ModalForm title={'Zarządzaj obrazami'} id={this.state.paintID} add={this.onAddPaint} edit={this.onEditPaint} openBlankModal={this.openBlankModal}>
+        <ModalForm title={'Zarządzaj obrazami'} 
+                   id={this.state.paintID} 
+                   add={this.onAddPaint} 
+                   edit={this.onEditPaint} 
+                   openBlankModal={this.openBlankModal}
+                   errors= {this.formErrors}
+                   sendingFiles= {true}>
             {form}
         </ModalForm>
         );

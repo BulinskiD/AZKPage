@@ -6,7 +6,7 @@ import './contact.css';
 export default () => {
     return (
         <div id="contact">
-            <div className="contactData d-lg-block d-none" data-aos="fade-right"
+            <div className="contact-data d-lg-block d-none" data-aos="fade-right"
                 data-aos-duration="3000">
                 Alina Zachariasz-Kuciakowska <br />
                 ul. Biecka 48, 38-300 Gorlice<br />
@@ -15,7 +15,7 @@ export default () => {
             </div>
             <div className="offset-lg-4 col-lg-8 offset-0 col-12"><h2>Kontakt</h2>
 
-                <form className="contact-form">
+                <form className="contact-form" onSubmit={e=> e.preventDefault()}>
                     <div className="form-row">
                         <label htmlFor="name" className="col-lg-2">Imię i nazwisko:</label>
                         <input type="name" className="form-control col-lg-5" id="name" placeholder="Imię i nazwisko" />

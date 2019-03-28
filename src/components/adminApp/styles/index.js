@@ -9,6 +9,8 @@ class StylesAdmin extends React.Component{
 
     state= {styles: null, name: '', picSrc: '', styleID: null, error: null};
 
+    errors = {name: null};
+
 
 
     componentDidMount(){
@@ -134,7 +136,9 @@ class StylesAdmin extends React.Component{
         <>
             <div className="form-group row">
                 <label htmlFor="name">Nazwa</label>
-                <input  className="form-control" onChange={(e)=>this.setState({name: e.target.value})} value={this.state.name} type='text' name='name' />
+                <input  className="form-control" onChange={(e)=>{ e.target.value.length >3 && e.target.value.length < 15 ? this.errors.name = true: this.errors.name = false;
+                                                                this.setState({name: e.target.value})}} 
+                                                                value={this.state.name} type='text' name='name' />
             </div>
             <div className="form-group row">
                 <label htmlFor="picture">Zdjęcie</label>
@@ -144,7 +148,13 @@ class StylesAdmin extends React.Component{
         );
 
         return (
-        <ModalForm title={'Zarządzaj technikami'} id={this.state.styleID} add={this.addStyle} edit={this.editStyle} openBlankModal={this.openBlankModal}>
+        <ModalForm title={'Zarządzaj technikami'} 
+                   id={this.state.styleID} 
+                   add={this.addStyle} 
+                   edit={this.editStyle} 
+                   openBlankModal={this.openBlankModal}
+                   errors= {this.errors}
+                   sendingFiles= {true}>
             {form}
         </ModalForm>);
     }

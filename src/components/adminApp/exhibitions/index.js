@@ -9,6 +9,8 @@ class exhibitionsAdmin extends React.Component {
 
     state = { exhibitions: null, error: null, city: '', place: '', date: '', exhID: null };
 
+    errors = { place: null, city: null, date: null};
+
     componentDidMount() {
         exhApi.get('index/')
             .then((response) => {
@@ -123,7 +125,8 @@ class exhibitionsAdmin extends React.Component {
                         <label htmlFor="place">Miejsce wystawy</label>
                         <input
                             value={this.state.place}
-                            onChange={(e) => this.setState({ place: e.target.value })}
+                            onChange={(e) =>{(e.target.value.length > 2 && e.target.value.length < 30) ? this.errors.place = true : this.errors.place = false; 
+                                             this.setState({ place: e.target.value })}}
                             className="form-control"
                             name="place"
                             type="text"
@@ -133,18 +136,22 @@ class exhibitionsAdmin extends React.Component {
                         <label htmlFor="city">Miasto wystawy</label>
                         <input
                             value={this.state.city}
-                            onChange={(e) => this.setState({ city: e.target.value })}
+                            onChange={(e) =>{(e.target.value.length > 2 && e.target.value.length < 30) ? this.errors.city = true : this.errors.city = false; 
+                                             this.setState({ city: e.target.value })}}
                             className="form-control"
                             name="city"
                             type="text"
                             placeholder="Miasto wystawy" />
                     </div>
                     <div className="form-group row mt-3">
-                        <label htmlFor="date">Miasto wystawy</label>
+                        <label htmlFor="date">Data wystawy</label>
                         <input
                             value={this.state.date}
-                            onChange={(e) => this.setState({ date: e.target.value })}
+                            onChange={(e) => {(new Date(e.target.value) > new Date('1960-01-01')) && (new Date(e.target.value) < new Date()) ? this.errors.date = true : this.errors.date = false;
+                                              this.setState({ date: e.target.value })}}
                             className="form-control"
+                            min="1960-01-01" 
+                            max={new Date().toISOString().slice(0,10)}
                             name="date"
                             type="date" />
                     </div>
@@ -152,7 +159,13 @@ class exhibitionsAdmin extends React.Component {
 
 
         return (
-            <ModalForm title={'Zarządzaj wystawami'} id={this.state.exhID} add={this.addExh} edit={this.editExh} openBlankModal={this.openBlankModal}>
+            <ModalForm title={'Zarządzaj wystawami'}
+                       id={this.state.exhID} 
+                       add={this.addExh} 
+                       edit={this.editExh} 
+                       openBlankModal={this.openBlankModal}
+                       errors={this.errors}
+                       sendingFiles= {false}>
                 {form}
             </ModalForm>
         );
