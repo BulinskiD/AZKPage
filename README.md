@@ -10,6 +10,7 @@ WORKING
 
 UNDER DEVELOPMENT
 
-- Validation of forms
 - Error handling
 - Storing Json Web Token
+- Add spinners on load
+- Add IE compatibility
