@@ -14,3 +14,4 @@ UNDER DEVELOPMENT
 - Storing Json Web Token
 - Add spinners on load
 - Add IE compatibility
+- Change from .Net Core API to Google's Firebase
