@@ -7,13 +7,15 @@ import './exhibitions.css';
 
 
 
-class exhibitions extends React.Component{
+class Exhibitions extends React.Component{
     static contextType = FirebaseContext;
+
+    exhRef = this.context.firestore.collection('exhibitions');
     
     state={exhArray: []}
 
     componentDidMount(){
-        this.context.collection('exhibitions').orderBy('date', 'desc').get().then(resp => {
+        this.exhRef.orderBy('date', 'desc').get().then(resp => {
             let exhArray = resp.docs.map(exh => {
                return {id: exh.id, ...exh.data()}; 
             });
@@ -49,4 +51,4 @@ class exhibitions extends React.Component{
     }
 }
 
-export default exhibitions;
+export default Exhibitions;

@@ -8,7 +8,7 @@ class ExhibitionsAdmin extends React.Component {
     static contextType = FirebaseContext;
     
     //DB Reference
-    exhRef = this.context.collection("exhibitions");
+    exhRef = this.context.firestore.collection("exhibitions");
 
     state = { exhibitions: null, error: null, city: '', place: '', date: '', exhID: null };
 
