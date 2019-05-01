@@ -1,34 +1,37 @@
 import React from 'react';
-import exhApi from '../../../api/exhibitions';
 import onErrorHandler from '../../../helperFunctions/onErrorHandler';
-
 import './admin-exh.css';
 import ModalForm from '../modalForm';
+import FirebaseContext from '../../../api/firebaseContext';
 
-class exhibitionsAdmin extends React.Component {
+class ExhibitionsAdmin extends React.Component {
+    static contextType = FirebaseContext;
+    
+    //DB Reference
+    exhRef = this.context.collection("exhibitions");
 
     state = { exhibitions: null, error: null, city: '', place: '', date: '', exhID: null };
 
+    //Errors object, which is sended to Modal Form
     errors = { place: null, city: null, date: null};
 
     componentDidMount() {
-        exhApi.get('index/')
-            .then((response) => {
-                let exhArray = response.data.sort((a, b) => b.date - a.date);
-                this.setState({ exhibitions: exhArray });
-            })
-            .catch((error) => {
-                let verifiedError = onErrorHandler(error);
-                if(verifiedError === 404){
-                    this.setState({ error: 'Brak wystaw do wyświetlenia' });
-                }
-                console.log(error.response)
+        this.exhRef.orderBy('date', 'desc').get().then(resp => {
+            let exhArray = resp.docs.map(exh => {
+               return {id: exh.id, ...exh.data()}; 
             });
+            this.setState({exhibitions: exhArray});
+        })
+        .catch(error => {
+            let verifiedError = onErrorHandler(error);
+            if (verifiedError === 404) {
+                //No exh available
+            }
+        });
     }
 
-
     deleteExh = (exh) => {
-        exhApi.delete(`delete/${exh.exhibitionID}`,  { headers: {'Authorization': "bearer " + localStorage.getItem('jwt')}})
+        this.exhRef.doc(exh.id).delete()
             .then(async () => {
                 let updatedExh = await this.state.exhibitions.filter((oldExh) => (oldExh !== exh));
                 updatedExh.sort((a, b) => b.date - a.date);
@@ -41,36 +44,30 @@ class exhibitionsAdmin extends React.Component {
             });
     }
 
-
     addExh = () => {
         let date = new Date(this.state.date).getTime();
         let newExh = { place: this.state.place, city: this.state.city, date: date };
 
-        exhApi.post('add/', newExh,  { headers: {'Authorization': "bearer " + localStorage.getItem('jwt')}})
+        this.exhRef.add(newExh)
             .then((response) => {
-                let newExh = this.state.exhibitions;
-                newExh.push(response.data);
-                newExh.sort((a, b) => b.date - a.date);
-                this.setState({ exhibitions: newExh });
+                let newExhArray = this.state.exhibitions;
+                newExhArray.push({id: response.id, ...newExh});
+                newExhArray.sort((a, b) => b.date - a.date);
+                this.setState({ exhibitions: newExhArray });
                 document.getElementById('cancel').click();
             })
             .catch((error) => {
-                console.log(error);
-                let verifiedError = onErrorHandler(error);
-                if(verifiedError===400){
-                    //error on validation on backend side 
-                }
+                onErrorHandler(error);
             });
     }
-
 
     editExh = () => {
         let date = new Date(this.state.date).getTime();
         let newExh = { place: this.state.place, city: this.state.city, date: date };
-        newExh.exhibitionID = this.state.exhID;
-        exhApi.put(`update/${newExh.exhibitionID}`, newExh,  { headers: {'Authorization': "bearer " + localStorage.getItem('jwt')}})
-            .then((response) => {
-                let index = this.state.exhibitions.findIndex((exh) => exh.exhibitionID === newExh.exhibitionID);
+        newExh.id = this.state.exhID;
+        this.exhRef.doc(newExh.id).update(newExh)
+            .then(() => {
+                let index = this.state.exhibitions.findIndex((exh) => exh.id === newExh.id);
                 let newArr = this.state.exhibitions;
                 newArr[index] = newExh;
                 newArr.sort((a, b) => b.date - a.date);
@@ -84,11 +81,10 @@ class exhibitionsAdmin extends React.Component {
             });
     }
 
-
     openEditModal = (exh) => {
         let date = new Date(exh.date);
         let formattedData = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + (date.getDate() + 1)).slice(-2)}`;
-        this.setState({ city: exh.city, place: exh.place, date: formattedData, exhID: exh.exhibitionID });
+        this.setState({ city: exh.city, place: exh.place, date: formattedData, exhID: exh.id });
         document.getElementById('openModal').click();
 
     }
@@ -102,7 +98,7 @@ class exhibitionsAdmin extends React.Component {
         if (this.state.exhibitions !== null) {
             return this.state.exhibitions.map(exh => {
                 let formatedDate = `${new Date(exh.date).getFullYear()}`;
-                return (<div className="exh exh-admin mt-1" key={exh.exhibitionID}>
+                return (<div className="exh exh-admin mt-1" key={exh.id}>
                     <span className="date">{formatedDate}</span>
                     <span>{exh.place}, {exh.city}</span>
                     <span className="exh-buttons">
@@ -120,12 +116,12 @@ class exhibitionsAdmin extends React.Component {
 
     renderModal = () => {
         const form = (
-             <>
+             <React.Fragment>
                     <div className="form-group row mt-3">
                         <label htmlFor="place">Miejsce wystawy</label>
                         <input
                             value={this.state.place}
-                            onChange={(e) =>{(e.target.value.length > 2 && e.target.value.length < 30) ? this.errors.place = true : this.errors.place = false; 
+                            onChange={(e) =>{this.errors.place = !(e.target.value.length > 2 && e.target.value.length < 30);
                                              this.setState({ place: e.target.value })}}
                             className="form-control"
                             name="place"
@@ -136,7 +132,7 @@ class exhibitionsAdmin extends React.Component {
                         <label htmlFor="city">Miasto wystawy</label>
                         <input
                             value={this.state.city}
-                            onChange={(e) =>{(e.target.value.length > 2 && e.target.value.length < 30) ? this.errors.city = true : this.errors.city = false; 
+                            onChange={(e) =>{this.errors.city = !(e.target.value.length > 2 && e.target.value.length < 30); 
                                              this.setState({ city: e.target.value })}}
                             className="form-control"
                             name="city"
@@ -147,7 +143,7 @@ class exhibitionsAdmin extends React.Component {
                         <label htmlFor="date">Data wystawy</label>
                         <input
                             value={this.state.date}
-                            onChange={(e) => {(new Date(e.target.value) > new Date('1960-01-01')) && (new Date(e.target.value) < new Date()) ? this.errors.date = true : this.errors.date = false;
+                            onChange={(e) => {this.errors.date = !(new Date(e.target.value) > new Date('1960-01-01')) && (new Date(e.target.value) < new Date());
                                               this.setState({ date: e.target.value })}}
                             className="form-control"
                             min="1960-01-01" 
@@ -155,9 +151,7 @@ class exhibitionsAdmin extends React.Component {
                             name="date"
                             type="date" />
                     </div>
-                </>);
-
-
+                </React.Fragment>);
         return (
             <ModalForm title={'Zarządzaj wystawami'}
                        id={this.state.exhID} 
@@ -171,11 +165,6 @@ class exhibitionsAdmin extends React.Component {
         );
     }
 
-
-
-
-
-
     render() {
         return (<div className="admin-page-content">
             {this.renderModal()}
@@ -184,4 +173,4 @@ class exhibitionsAdmin extends React.Component {
     }
 }
 
-export default exhibitionsAdmin;
+export default ExhibitionsAdmin;

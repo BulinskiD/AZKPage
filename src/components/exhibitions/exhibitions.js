@@ -1,28 +1,30 @@
 import React from 'react';
 
-import exhApi from '../../api/exhibitions';
 import onErrorHandler from '../../helperFunctions/onErrorHandler';
+import FirebaseContext from '../../api/firebaseContext';
 import './exhibitions.css';
 
 
 
 
 class exhibitions extends React.Component{
-
+    static contextType = FirebaseContext;
     
     state={exhArray: []}
 
-    async componentDidMount(){
-        await exhApi.get('index/')
-                .then((response)=>{
-                    let exhArray= response.data.sort((a, b)=> b.date - a.date);
-                    this.setState({exhArray: exhArray})})
-                .catch((error)=>{
-                    let verifiedError = onErrorHandler(error);
-                    if(verifiedError===404){
-                        //No exh available 
-                    }
-                    });
+    componentDidMount(){
+        this.context.collection('exhibitions').orderBy('date', 'desc').get().then(resp => {
+            let exhArray = resp.docs.map(exh => {
+               return {id: exh.id, ...exh.data()}; 
+            });
+            this.setState({exhArray});
+        })
+        .catch(error => {
+            let verifiedError = onErrorHandler(error);
+            if (verifiedError === 404) {
+                //No exh available
+            }
+        });
     }
    
     renderExhibition= ()=>
@@ -30,7 +32,7 @@ class exhibitions extends React.Component{
         return this.state.exhArray.map(exh=>{
             let date= new Date(exh.date);
             let formatedDate= `${date.getFullYear()}`;
-            return <div className="exh" key={exh.exhibitionID}><span className="date">{formatedDate}</span><span>{exh.place}, {exh.city}</span></div>
+            return <div className="exh" key={exh.id}><span className="date">{formatedDate}</span><span>{exh.place}, {exh.city}</span></div>
         });
     }
    

@@ -6,7 +6,7 @@ class modalForm extends React.Component{
     state= {error: null};
 
     validate(){
-        if(Object.values(this.props.errors).filter(e=> !e).length !== 0){
+        if(Object.values(this.props.errors).filter(e=> e).length !== 0){
             this.setState({error: 'Wprowadź poprawne wartości!'});
             return false;
         }
