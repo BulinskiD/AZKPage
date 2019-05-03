@@ -12,6 +12,7 @@ class StylesAdmin extends React.Component{
     storageRef = this.context.storage;
     styleRef = this.context.firestore.collection('styles');
     state= {styles: null, name: '', src: '', id: null, error: null, loading: true};
+    imagesLoaded = 0;
 
     errors = {name: null};
 
@@ -24,7 +25,7 @@ class StylesAdmin extends React.Component{
             });
             //Await for all promises to be completed, then set state
             Promise.all(styleNames).then(completed => {
-                this.setState({ styles: completed, loading: false });
+                this.setState({ styles: completed });
             });
         }
         catch (error) {
@@ -105,6 +106,14 @@ class StylesAdmin extends React.Component{
         document.getElementById('openModal').click();
     }
 
+    onImageLoaded = () => {
+        this.imagesLoaded++;
+        if(this.imagesLoaded === this.state.styles.length){
+            this.imagesLoaded = 0;
+            this.setState({loading: false});
+        }
+    }
+
     renderStylesList() {
         if (this.state.error)
             return <div className="admin-page-content"><div className="alert alert-primary">{this.state.error}</div></div>
@@ -113,7 +122,7 @@ class StylesAdmin extends React.Component{
                 return (
                     <div className="paint" style={{ cursor: 'default' }} key={style.id}>
                         <div className='thumb'>
-                            <img className="img-thumbnail" src={style.url} alt={style.name} />
+                            <img className="img-thumbnail" onLoad={this.onImageLoaded} src={style.url} alt={style.name} />
                         </div>
                         <h4>{style.name}</h4>
                         <span className="exh-buttons">

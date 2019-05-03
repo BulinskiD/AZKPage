@@ -2,6 +2,7 @@ import React from 'react';
 
 import onErrorHandler from '../../../helperFunctions/onErrorHandler';
 import FirebaseContext from '../../../api/firebaseContext';
+import Loading from '../../loading/loading';
 import './exhibitions.css';
 
 
@@ -12,21 +13,22 @@ class Exhibitions extends React.Component{
 
     exhRef = this.context.firestore.collection('exhibitions');
     
-    state={exhArray: []}
+    state={exhArray: [], loading: true}
 
-    componentDidMount(){
-        this.exhRef.orderBy('date', 'desc').get().then(resp => {
-            let exhArray = resp.docs.map(exh => {
-               return {id: exh.id, ...exh.data()}; 
+    async componentDidMount(){
+        try{
+        const resp = await this.exhRef.orderBy('date', 'desc').get();
+        let exhArray = resp.docs.map(exh => {
+            return {id: exh.id, ...exh.data()}; 
             });
-            this.setState({exhArray});
-        })
-        .catch(error => {
+        this.setState({exhArray, loading: false});
+        }
+        catch(error) {
             let verifiedError = onErrorHandler(error);
             if (verifiedError === 404) {
                 //No exh available
             }
-        });
+        }
     }
    
     renderExhibition= ()=>
@@ -46,7 +48,8 @@ class Exhibitions extends React.Component{
                 data-aos-duration="3000" />
             <div className="offset-lg-4 col-lg-8 col-12 offset-0"><h2>Wystawy</h2>
             {this.renderExhibition()}
-            </div></div>
+            </div>
+            {this.state.loading && <Loading fullPage={false} />}</div>
         );
     }
 }

@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import onErrorHandler from '../../../helperFunctions/onErrorHandler';
 import './admin-exh.css';
 import ModalForm from '../modalForm';
+import Loading from '../../loading/loading';
 import FirebaseContext from '../../../api/firebaseContext';
 
 class ExhibitionsAdmin extends React.Component {
@@ -10,87 +12,97 @@ class ExhibitionsAdmin extends React.Component {
     //DB Reference
     exhRef = this.context.firestore.collection("exhibitions");
 
-    state = { exhibitions: null, error: null, city: '', place: '', date: '', exhID: null };
+    state = { exhibitions: null, error: null, city: '', place: '', date: '', id: null, loading: true };
 
     //Errors object, which is sended to Modal Form
     errors = { place: null, city: null, date: null};
 
-    componentDidMount() {
-        this.exhRef.orderBy('date', 'desc').get().then(resp => {
+    async componentDidMount() {
+        try {
+            const resp = await this.exhRef.orderBy('date', 'desc').get();
             let exhArray = resp.docs.map(exh => {
-               return {id: exh.id, ...exh.data()}; 
+                return {id: exh.id, ...exh.data()}; 
             });
-            this.setState({exhibitions: exhArray});
-        })
-        .catch(error => {
+            this.setState({exhibitions: exhArray, loading: false});
+        }
+        catch(error) {
+            this.setState({loading:false});
             let verifiedError = onErrorHandler(error);
             if (verifiedError === 404) {
                 //No exh available
             }
-        });
+        }
     }
 
-    deleteExh = (exh) => {
-        this.exhRef.doc(exh.id).delete()
-            .then(async () => {
-                let updatedExh = await this.state.exhibitions.filter((oldExh) => (oldExh !== exh));
-                updatedExh.sort((a, b) => b.date - a.date);
-                this.setState({ exhibitions: updatedExh });
-            }).catch((error) => {
-                let verifiedError = onErrorHandler(error);
-                if(verifiedError === 404){
-                    console.log('Nie znaleziono wystawy');
-                }
-            });
+    deleteExh = async (exh) => {
+        try {
+            this.setState({loading: true});
+            await this.exhRef.doc(exh.id).delete()
+            let updatedExh = await this.state.exhibitions.filter((oldExh) => (oldExh !== exh));
+            updatedExh.sort((a, b) => b.date - a.date);
+            this.setState({ exhibitions: updatedExh, loading: false });
+        }
+        catch(error) {
+            this.setState({loading: false});
+            let verifiedError = onErrorHandler(error);
+            if(verifiedError === 404){
+            console.log('Nie znaleziono wystawy');
+            }
+        }
     }
 
-    addExh = () => {
+    addExh = async () => {
+        this.setState({loading: true});
         let date = new Date(this.state.date).getTime();
         let newExh = { place: this.state.place, city: this.state.city, date: date };
 
-        this.exhRef.add(newExh)
-            .then((response) => {
-                let newExhArray = this.state.exhibitions;
-                newExhArray.push({id: response.id, ...newExh});
-                newExhArray.sort((a, b) => b.date - a.date);
-                this.setState({ exhibitions: newExhArray });
-                document.getElementById('cancel').click();
-            })
-            .catch((error) => {
-                onErrorHandler(error);
-            });
+        try{
+            const docRef = await this.exhRef.add(newExh);
+            let newExhArray = this.state.exhibitions;
+            newExhArray.push({id: docRef.id, ...newExh});
+            newExhArray.sort((a, b) => b.date - a.date);
+            this.setState({ exhibitions: newExhArray, loading: false });
+            document.getElementById('cancel').click();
+        }
+        catch(error) {
+            this.setState({loading: false});
+            onErrorHandler(error);
+        }
     }
 
-    editExh = () => {
+    editExh = async () => {
+        this.setState({loading: true});
         let date = new Date(this.state.date).getTime();
         let newExh = { place: this.state.place, city: this.state.city, date: date };
-        newExh.id = this.state.exhID;
-        this.exhRef.doc(newExh.id).update(newExh)
-            .then(() => {
-                let index = this.state.exhibitions.findIndex((exh) => exh.id === newExh.id);
-                let newArr = this.state.exhibitions;
-                newArr[index] = newExh;
-                newArr.sort((a, b) => b.date - a.date);
-                this.setState({ exhibitions: newArr });
-                document.getElementById('cancel').click();
-            }).catch((error) => {
-                let verifiedError = onErrorHandler(error);
-                if(verifiedError===400){
-                    //error on validation on backend side 
-                }
-            });
+        newExh.id = this.state.id;
+        try {
+            await this.exhRef.doc(newExh.id).update(newExh);
+            let index = this.state.exhibitions.findIndex((exh) => exh.id === newExh.id);
+            let newArr = this.state.exhibitions;
+            newArr[index] = newExh;
+            newArr.sort((a, b) => b.date - a.date);
+            this.setState({ exhibitions: newArr, loading: false });
+            document.getElementById('cancel').click();
+        }
+        catch(error) {
+            this.setState({loading: false});
+            let verifiedError = onErrorHandler(error);
+            if(verifiedError===400){
+               //error on validation on backend side 
+            }
+        }
     }
 
     openEditModal = (exh) => {
         let date = new Date(exh.date);
         let formattedData = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + (date.getDate() + 1)).slice(-2)}`;
-        this.setState({ city: exh.city, place: exh.place, date: formattedData, exhID: exh.id });
+        this.setState({ city: exh.city, place: exh.place, date: formattedData, id: exh.id });
         document.getElementById('openModal').click();
 
     }
 
     openBlankModal = () => {
-        this.setState({ city: '', place: '', date: '', exhID: null });
+        this.setState({ city: '', place: '', date: '', id: null });
         document.getElementById('openModal').click();
     }
 
@@ -109,6 +121,7 @@ class ExhibitionsAdmin extends React.Component {
             })
         }
         else {
+            if (!this.state.loading)
             return <div className="alert alert-primary">{this.state.error}</div>
         }
 
@@ -154,7 +167,7 @@ class ExhibitionsAdmin extends React.Component {
                 </React.Fragment>);
         return (
             <ModalForm title={'Zarządzaj wystawami'}
-                       id={this.state.exhID} 
+                       id={this.state.id} 
                        add={this.addExh} 
                        edit={this.editExh} 
                        openBlankModal={this.openBlankModal}
@@ -169,6 +182,7 @@ class ExhibitionsAdmin extends React.Component {
         return (<div className="admin-page-content">
             {this.renderModal()}
             {this.renderExhList()}
+            {this.state.loading && ReactDOM.createPortal(<Loading fullPage={true} />, document.querySelector("body"))}
         </div>);
     }
 }
