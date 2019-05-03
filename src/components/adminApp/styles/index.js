@@ -160,7 +160,7 @@ class StylesAdmin extends React.Component{
             <div className="admin-page-content">
                     {this.renderModal()}
                     {this.renderStylesList()}
-                    {this.state.loading && ReactDOM.createPortal(<Loading />, document.querySelector("body"))}
+                    {this.state.loading && ReactDOM.createPortal(<Loading fullPage={true} />, document.querySelector("body"))}
             </div>
         )
     }
