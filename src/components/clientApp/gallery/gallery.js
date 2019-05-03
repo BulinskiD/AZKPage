@@ -4,6 +4,7 @@ import { Element } from 'react-scroll'
 import { animateScroll as scroll } from 'react-scroll';
 import onErrorHandler from '../../../helperFunctions/onErrorHandler';
 import SelectedGallery from '../selectedGallery/selectedGallery';
+import Loading from '../../loading/loading';
 import FirebaseContext from '../../../api/firebaseContext';
 
 import './gallery.css';
@@ -18,14 +19,17 @@ class Gallery extends React.Component {
     state = {
         selectedGalleryId: null,
         selectedGalleryTitle: '',
-        styleNames: []
+        styleNames: [],
+        loading: true 
     };
+    imagesLoadedCount = 0;
 
     onGallerySelected = (style) => {
-        this.setState({ selectedGalleryId: style.id, selectedGalleryTitle: style.name });
+        this.setState({ selectedGalleryId: style.id, selectedGalleryTitle: style.name});
     }
 
     async componentDidMount() {
+        this.setState({loading: true});
         try{
         let styleNames = await this.styleRef.get();
         styleNames = styleNames.docs.map(async style => {
@@ -39,7 +43,6 @@ class Gallery extends React.Component {
         });
         }
         catch(error){
-
             //TO DO CHANGE ERROR HANDLING!!
             let verifiedError = onErrorHandler(error);
             if (verifiedError === 404) {
@@ -47,12 +50,33 @@ class Gallery extends React.Component {
         }
     }
 
+    onImagesLoaded = () => {
+        this.imagesLoadedCount++;
+        if(this.state.styleNames.length === this.imagesLoadedCount){
+            this.imagesLoadedCount = 0;
+            this.setState({loading: false});
+        }
+    }
+
+    preloadImage = (url) => {
+        let a = new Image();
+        a.src = url;
+        a.onload = this.onImagesLoaded;
+    }
+
     renderMenu = () => {
-        return this.state.styleNames.map(style => {
-            return (<div onClick={() => this.onGallerySelected(style)} key={style.id}
-                className="picture" style={{ backgroundImage: `url(${style.url})` }}>
-                <span className="center">{style.name}</span></div>);
-        });
+        return <div className="galleryMenu">
+            {this.state.styleNames.map(style => {
+                this.preloadImage(style.url);
+                if (!this.state.loading)
+                    return (<div onClick={() => this.onGallerySelected(style)} key={style.id}
+                        className="picture" style={{ backgroundImage: `url(${style.url})` }}>
+                        <span className="center">{style.name}</span></div>);
+                else
+                    return "";
+            })}
+            {this.state.loading && <Loading fullPage={false} />}
+        </div>
     }
 
     closeGallery = () => {
@@ -68,14 +92,12 @@ class Gallery extends React.Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <div id="gallery">
                     <div className="left2 d-lg-block d-none" data-aos="fade-right" data-aos-duration="3000" ><span>Galeria</span></div>
                     <div className="col-lg-8 offset-lg-4 offset-0 col-12">
                         <h2>Galeria</h2>
-                        <div className="galleryMenu">
                             {this.renderMenu()}
-                        </div>
                     </div>
                 </div>
                 {this.state.selectedGalleryId !== null ?
@@ -84,7 +106,7 @@ class Gallery extends React.Component {
                         closeGalleryOnError={this.closeGalleryOnError}
                         id={this.state.selectedGalleryId}
                         title={this.state.selectedGalleryTitle} /></Element> : ''}
-            </div>
+            </React.Fragment>
         );
     }
 }
