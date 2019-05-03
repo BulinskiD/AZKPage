@@ -3,13 +3,13 @@ import { Element } from 'react-scroll'
 
 
 
-import Header from './header/header';
-import StartingComp from './startingComp/startingComp';
-import Bio from './bio/bio';
-import Gallery from './gallery/gallery';
-import Exhibitions from './exhibitions/exhibitions';
-import Contact from './contact/contact';
-import Footer from './footer/footer';
+import Header from './clientApp/header/header';
+import StartingComp from './clientApp/startingComp/startingComp';
+import Bio from './clientApp/bio/bio';
+import Gallery from './clientApp/gallery/gallery';
+import Exhibitions from './clientApp/exhibitions/exhibitions';
+import Contact from './clientApp/contact/contact';
+import Footer from './clientApp/footer/footer';
 
 class openApp extends React.Component {
 

@@ -1,0 +1,86 @@
+.selectedGallery{
+    position: relative;
+    min-height: 100vh;
+}
+.paint{
+    margin-top: 3%;
+    display: flex;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 15px;
+    height: 22vh;
+    transition: background-color 0.2s;
+}
+
+.paint:hover{
+    background: rgba(0,0,0,0.15);
+}
+
+.thumb{
+    width: 20%;
+    max-height: 20vh;
+    overflow: hidden;
+}
+
+img.img-thumbnail{
+    padding: 0;
+    border-radius: 0;
+}
+
+.description{
+    width: 40%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.description span:first-child{
+    font-size: 1.5rem;
+}
+
+.description span{
+    padding-left: 30%;
+}
+
+.galleryShape{
+        position: absolute;
+        width: 30%;
+        height: 100%;
+        clip-path: polygon(80% 0%, 0% 100%, 0% 60%);
+        background: black;
+}
+
+.close{
+    position: sticky;
+    right: 5%;
+    top: 1%;
+    z-index: 10;
+    font-size: 3vmin;
+    border: solid 2px black;
+    padding: 1%;
+}
+
+
+@media(max-width: 992px){
+    .paint{
+        flex-direction: row-reverse;
+        justify-content: center;
+        height: 22vmax;
+    }
+
+    .thumb{
+        width: 60%;
+        min-height: 20vmax;
+    }
+
+    .close{
+        display: none;
+    }
+
+    .description span:first-child{
+        font-size: 1.3rem;
+    }
+    .description span{
+        padding-left: 0;
+    }
+}
