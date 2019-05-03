@@ -1,6 +1,8 @@
 import React from 'react';
 import onErrorHandler from '../../../helperFunctions/onErrorHandler';
+import Loading from '../../loading/loading';
 import FirebaseContext from '../../../api/firebaseContext';
+import ReactDOM from 'react-dom';
 
 import ModalForm from '../modalForm'; 
 
@@ -9,7 +11,7 @@ class StylesAdmin extends React.Component{
     
     storageRef = this.context.storage;
     styleRef = this.context.firestore.collection('styles');
-    state= {styles: null, name: '', src: '', id: null, error: null};
+    state= {styles: null, name: '', src: '', id: null, error: null, loading: true};
 
     errors = {name: null};
 
@@ -22,7 +24,7 @@ class StylesAdmin extends React.Component{
             });
             //Await for all promises to be completed, then set state
             Promise.all(styleNames).then(completed => {
-                this.setState({ styles: completed });
+                this.setState({ styles: completed, loading: false });
             });
         }
         catch (error) {
@@ -32,11 +34,12 @@ class StylesAdmin extends React.Component{
 
     deleteStyle = async style => {
         try {
-        await this.styleRef.doc(style.id).delete();
-        let newArr= this.state.styles.filter(oldStyle=> oldStyle.id!==style.id);
-        await this.storageRef.child(style.src).delete();
-        let error = newArr.length === 0 ? 'Brak dodanych styli' : null;
-        this.setState({styles: newArr, error: error});
+            this.setState({loading: true});
+            await this.styleRef.doc(style.id).delete();
+            let newArr= this.state.styles.filter(oldStyle=> oldStyle.id!==style.id);
+            await this.storageRef.child(style.src).delete();
+            let error = newArr.length === 0 ? 'Brak dodanych styli' : null;
+            this.setState({styles: newArr, error: error, loading: false});
         }
         catch(error) {
 
@@ -45,6 +48,7 @@ class StylesAdmin extends React.Component{
     }
 
     editStyle = async () =>{
+        this.setState({loading: true});
         let editedStyle = { name: this.state.name, src: this.state.src };
         try{
         if (document.getElementById('picture').files[0] !== undefined) {
@@ -61,7 +65,7 @@ class StylesAdmin extends React.Component{
         let index = this.state.styles.findIndex((style) => style.id === this.state.id);
         let updatedArr = this.state.styles;
         updatedArr[index] = editedStyle;
-        this.setState({ styles: updatedArr });
+        this.setState({ styles: updatedArr, loading: false });
         document.getElementById('cancel').click();
         document.getElementById('picture').value= '';
         }
@@ -71,6 +75,7 @@ class StylesAdmin extends React.Component{
     }
 
     addStyle = async () =>{
+        this.setState({loading: true});
         let file = document.getElementById('picture').files[0];
         let fileRef = this.storageRef.child(file.name);
         try{
@@ -81,7 +86,7 @@ class StylesAdmin extends React.Component{
             newStyle.url = await this.storageRef.child(newStyle.src).getDownloadURL();
             let updatedArr = this.state.styles;
             updatedArr.push(newStyle);
-            this.setState({ styles: updatedArr });
+            this.setState({ styles: updatedArr, loading: false });
             document.getElementById('cancel').click();
             document.getElementById('picture').value= '';
         }
@@ -100,28 +105,24 @@ class StylesAdmin extends React.Component{
         document.getElementById('openModal').click();
     }
 
-    renderStylesList(){
-        if(this.state.styles !==null){
-            return this.state.styles.map(style=>{
+    renderStylesList() {
+        if (this.state.error)
+            return <div className="admin-page-content"><div className="alert alert-primary">{this.state.error}</div></div>
+        if (this.state.styles) {
+            return this.state.styles.map(style => {
                 return (
-                    <div className="paint" style={{cursor: 'default'}} key={style.id}>
+                    <div className="paint" style={{ cursor: 'default' }} key={style.id}>
                         <div className='thumb'>
                             <img className="img-thumbnail" src={style.url} alt={style.name} />
                         </div>
                         <h4>{style.name}</h4>
                         <span className="exh-buttons">
-                            <i onClick={()=>this.openEditModal(style)} className="far fa-edit icon"></i>
-                            <i onClick={()=>this.deleteStyle(style)} className="fas fa-trash icon"></i>
+                            <i onClick={() => this.openEditModal(style)} className="far fa-edit icon"></i>
+                            <i onClick={() => this.deleteStyle(style)} className="fas fa-trash icon"></i>
                         </span>
                     </div>
                 )
             });
-        }
-        else{
-            if(this.state.error)
-                return <div className="admin-page-content"><div className="alert alert-primary">{this.state.error}</div></div>
-            else
-                return 'Ładowanie';
         }
     }
 
@@ -130,9 +131,10 @@ class StylesAdmin extends React.Component{
         <>
             <div className="form-group row">
                 <label htmlFor="name">Nazwa</label>
-                <input  className="form-control" onChange={(e)=>{ e.target.value.length < 3 || e.target.value.length > 15 ? this.errors.name = true: this.errors.name = false;
-                                                                this.setState({name: e.target.value})}} 
-                                                                value={this.state.name} type='text' name='name' />
+                <input  className="form-control" 
+                onChange={(e)=>{ e.target.value.length < 3 || e.target.value.length > 15 ? this.errors.name = true: this.errors.name = false;
+                this.setState({name: e.target.value})}} 
+                value={this.state.name} type='text' name='name' />
             </div>
             <div className="form-group row">
                 <label htmlFor="picture">Zdjęcie</label>
@@ -158,6 +160,7 @@ class StylesAdmin extends React.Component{
             <div className="admin-page-content">
                     {this.renderModal()}
                     {this.renderStylesList()}
+                    {this.state.loading && ReactDOM.createPortal(<Loading />, document.querySelector("body"))}
             </div>
         )
     }
