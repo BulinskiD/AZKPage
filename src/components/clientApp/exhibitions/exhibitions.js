@@ -30,7 +30,7 @@ class Exhibitions extends React.Component{
             }
         }
     }
-   
+
     renderExhibition= ()=>
     {
         return this.state.exhArray.map(exh=>{

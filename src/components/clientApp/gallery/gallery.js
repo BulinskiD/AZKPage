@@ -51,11 +51,9 @@ class Gallery extends React.Component {
     }
 
     onImagesLoaded = () => {
-        this.imagesLoadedCount++;
-        if(this.state.styleNames.length === this.imagesLoadedCount){
-            this.imagesLoadedCount = 0;
-            this.setState({loading: false});
-        }
+       this.imagesLoadedCount++;
+       if(this.state.styleNames.length === this.imagesLoadedCount)
+         this.setState({loading: false});
     }
 
     preloadImage = (url) => {
@@ -86,10 +84,6 @@ class Gallery extends React.Component {
         this.setState({ selectedGalleryId: null, selectedGalleryTitle: '' });
     }
 
-    closeGalleryOnError = (error) => {
-        this.setState({ selectedGalleryId: null, selectedGalleryTitle: '' });
-    }
-
     render() {
         return (
             <React.Fragment>
@@ -103,7 +97,6 @@ class Gallery extends React.Component {
                 {this.state.selectedGalleryId !== null ?
                     <Element name="selectedGallery"><SelectedGallery
                         closeGallery={this.closeGallery}
-                        closeGalleryOnError={this.closeGalleryOnError}
                         id={this.state.selectedGalleryId}
                         title={this.state.selectedGalleryTitle} /></Element> : ''}
             </React.Fragment>
