@@ -1,17 +1,19 @@
 This project is under development.
 
+**** 05.05.2019 App now uses Google's Firebase instead of .NET CORE Api ****
+
 WORKING
 
 + All CRUD operations
 + Scroll Router
 + Browser Router for admin panel
-+ Authentication
-+ Page displaying on medium and small screens
++ Firebase Authentication
++ Page displaying on medium and small screen
++ Spinners on load
++ Change from .Net Core API to Google's Firebase
 
 UNDER DEVELOPMENT
 
 - Error handling
-- Storing Json Web Token
-- Add spinners on load
+- Paints pagination
 - Add IE compatibility
-- Change from .Net Core API to Google's Firebase
