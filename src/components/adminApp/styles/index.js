@@ -1,5 +1,4 @@
 import React from 'react';
-import onErrorHandler from '../../../helperFunctions/onErrorHandler';
 import Loading from '../../loading/loading';
 import FirebaseContext from '../../../api/firebaseContext';
 import ReactDOM from 'react-dom';

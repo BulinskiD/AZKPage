@@ -2,8 +2,8 @@ import firebase from 'firebase/';
 
   // Initialize Firebase
   var config = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    apiKey: 'AIzaSyABuRw_InE1zSy7JTDQiRtQiBaievicd1I',
+    authDomain: 'azkpage.firebaseapp.com',
     databaseURL: process.env.REACT_APP_DATABASE_URL,
     projectId: 'azkpage',
     storageBucket: process.env.REACT_APP_STORAGE_BUCKET,

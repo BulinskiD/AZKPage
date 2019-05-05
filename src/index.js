@@ -7,7 +7,8 @@ import FirebaseContext from './api/firebaseContext';
 ReactDOM.render(
     <FirebaseContext.Provider value = {{
             firestore: firebase.firestore(), 
-            storage: firebase.storage().refFromURL("gs://azkpage.appspot.com")}}>
+            storage: firebase.storage().refFromURL("gs://azkpage.appspot.com"),
+            auth: firebase.auth()}}>
             <App />
     </FirebaseContext.Provider>
 , document.querySelector('#root'));

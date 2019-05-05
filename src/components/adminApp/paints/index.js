@@ -106,7 +106,6 @@ class PaintsAdmin extends React.Component {
         };
     }
 
-    //TO DO
     onEditPaint = async (e) => {
         this.setState({ loading: true, error: false });
         let editedPaint = this.generatePaintFromState();
@@ -261,8 +260,12 @@ class PaintsAdmin extends React.Component {
                     </div>
                 );
             });
-
-        return <div className="admin-page-content mt-4"><div className="alert alert-primary">{this.state.error}</div></div>
+        
+        if(this.state.error)
+            return <div className="admin-page-content mt-4"><div className="alert alert-primary">{this.state.error}</div></div>
+        else {
+            return <div></div>
+        }
     };
 
     renderModalForm = () => {
