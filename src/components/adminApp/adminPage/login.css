@@ -5,10 +5,13 @@
     padding-bottom: 0;
 }
 
-.navbar-admin{
-    display: flex;
-    width: 40%;
-    justify-content: space-between;
+.navbar-admin {
+    width: 70%;
+}
+
+.navbar-admin a{
+    display: inline-block;
+    padding: 5%;
 }
 
 .top-admin-menu{

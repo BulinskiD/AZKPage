@@ -40,18 +40,22 @@ class AdminPage extends React.Component{
 
     renderNavBar= () =>{
         return(
-            <div className="top-admin-menu">
-                <div className="navbar navbar-admin">
-                    <Link to="/" className="btn btn-secondary">Powrót do strony głównej</Link>
-                    <Link to="/admin/styles" className="btn btn-dark">Style</Link>
-                    <Link to="/admin/paints" className="btn btn-dark">Obrazy</Link>
-                    <Link to="/admin/exhibitions" className="btn btn-dark">Wystawy</Link>
+            <header className="mb-4">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <span style={{'cursor': 'pointer'}} onClick={this.setLogOut} className="nav-item nav-link text-uppercase">Wyloguj</span>
+              <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div className="navbar-nav">
+                    <Link className="nav-item nav-link text-uppercase" to="/admin/styles">Style</Link>
+                    <Link className="nav-item nav-link text-uppercase" to="/admin/paints">Obrazy</Link>
+                    <Link className="nav-item nav-link text-uppercase" to="/admin/exhibitions">Wystawy</Link> 
+                    <Link className="nav-item nav-link text-uppercase" to="/">Home</Link>
                 </div>
-
-                <div className="navbar">
-                    <button className="btn btn-danger" onClick={this.setLogOut}>Wyloguj</button>
-                </div>
-            </div>
+              </div>
+              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+              </button>
+            </nav>
+          </header>
         )
     }
 
@@ -82,7 +86,12 @@ class AdminPage extends React.Component{
         if(this.state.loading)
             return ReactDOM.createPortal(<Loading fullPage={true} />, document.querySelector('#root'));
         if (this.state.user === null) {
-            return <React.Fragment><Login redirectPath={this.redirectPath} history={this.props.history} />{this.renderRoutes()}</React.Fragment>
+            return <React.Fragment>
+                        <Login onLoading={() => this.setState({loading: true})} 
+                                          redirectPath={this.redirectPath}
+                                          history={this.props.history} />
+                        {this.renderRoutes()}
+                    </React.Fragment>
         }
         else return <div>{this.renderNavBar()}{this.renderRoutes()}</div>;
     }

@@ -10,6 +10,7 @@ class Login extends React.Component {
     onFormSubmit= async e =>{
         e.preventDefault();
         this.setState({error: null});
+        this.props.onLoading();
 
         if (this.state.login === '' || this.state.password === '') {
             this.setState({ error: 'Musisz uzupełnić wszystkie pola!' });
