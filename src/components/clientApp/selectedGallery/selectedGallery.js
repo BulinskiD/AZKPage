@@ -13,7 +13,7 @@ class SelectedGallery extends React.Component {
     static contextType = FirebaseContext;
     paintRef = this.context.firestore;
     storageRef = this.context.storage;
-    imagesLoadedCount = 0;
+
     state = {
         isOpen: false,
         paints: [],
@@ -66,13 +66,6 @@ class SelectedGallery extends React.Component {
         let offset = ReactDOM.findDOMNode(this)
             .getBoundingClientRect().top;
         scroll.scrollMore(offset);
-    }
-
-    onImageLoaded = () => {
-        this.imagesLoadedCount++;
-        if (this.imagesLoadedCount === this.state.paints.length) {
-            this.setState({loading: false});
-        }
     }
 
     renderImage = () => {

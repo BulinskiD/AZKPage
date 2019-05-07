@@ -1,8 +1,6 @@
 import React from 'react';
 import { Element } from 'react-scroll'
 
-
-
 import Header from './clientApp/header/header';
 import StartingComp from './clientApp/startingComp/startingComp';
 import Bio from './clientApp/bio/bio';
