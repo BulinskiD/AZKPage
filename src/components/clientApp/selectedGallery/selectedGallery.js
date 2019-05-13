@@ -4,6 +4,7 @@ import { animateScroll as scroll } from 'react-scroll';
 import Lightbox from 'react-image-lightbox';
 
 import Loading from '../../loading/loading';
+import Paginator from '../../paginator/paginator';
 import FirebaseContext from '../../../api/firebaseContext';
 import 'react-image-lightbox/style.css';
 import './selectedGallery.css';
@@ -13,33 +14,71 @@ class SelectedGallery extends React.Component {
     static contextType = FirebaseContext;
     paintRef = this.context.firestore;
     storageRef = this.context.storage;
+    itemsOnPage = 5; //Items on page
+    imagesLoaded = 0;
 
     state = {
         isOpen: false,
+        currentPage: 1,
+        pages: null,
         paints: [],
+        paintsList: [],
         photoIndex: null,
         loading: true,
         error: false
     };
 
+    //Pagination
+    onPageChangeHandler = async (currentPage) => {
+        if(currentPage !== this.state.currentPage){
+            await this.setState({currentPage, loading: true});
+            this.getPaintsOnPage();
+        }
+    }
+
+    onImageLoaded = () =>{
+        if(this.state.loading) {
+            this.imagesLoaded++;
+            if(this.imagesLoaded === this.state.paints.length) {
+                this.setState({ loading: false });
+                this.imagesLoaded = 0;
+            }
+        }
+    }
+
+    getPaintsOnPage = async (paintsList = this.state.paintsList) => {
+        const pagination = this.getPagination(paintsList);
+        const paints = pagination.paintsOnPage.map(async pic => {
+            try {
+                let newUrl = await this.storageRef.child(pic.data().src).getDownloadURL();
+                return { id: pic.id, url: newUrl, ...pic.data() }
+            }
+            catch(error) {
+                this.setState({paints: [], loading: false, error: true});
+                throw(error);
+            }
+        });
+        this.scrollToStart();
+        Promise.all(paints).then(completed => {
+            this.setState({ paints: completed, error: false, pages: pagination.pages });
+        });
+    }
+
+    getPagination = (paintsList) => {
+        const paintsLength = paintsList.docs.length;
+        let pages = paintsLength/this.itemsOnPage;
+        pages = Math.ceil(pages);
+        let startAt = (this.state.currentPage - 1) * this.itemsOnPage;  
+        let endAt = startAt + this.itemsOnPage;
+        return {paintsOnPage: paintsList.docs.slice(startAt, endAt), pages};
+    }
+ 
     getPics = async () => {
         try {
             const tempRef = this.paintRef.collection('styles').doc(this.props.id).collection('pics');
             const response = await tempRef.get();
-            const paints = response.docs.map(async pic => {
-                try {
-                let newUrl = await this.storageRef.child(pic.data().src).getDownloadURL();
-                return { id: pic.id, url: newUrl, ...pic.data() }
-                }
-                catch(error) {
-                    this.setState({paints: [], loading: false, error: true});
-                    throw(error);
-                }
-            });
-            this.scrollToStart();
-            Promise.all(paints).then(completed => {
-                this.setState({ paints: completed, loading: false, error: false });
-            });
+            this.getPaintsOnPage(response);
+            this.setState({paintsList: response});
         }
         catch (error) {
             this.setState({paints: [], loading: false, error: true});
@@ -53,7 +92,7 @@ class SelectedGallery extends React.Component {
 
     componentDidUpdate(nextProps) {
         if (this.props.id !== nextProps.id) {
-            this.setState({loading: true});
+            this.setState({loading: true, paints: []});
             this.getPics();
         }
     }
@@ -70,15 +109,16 @@ class SelectedGallery extends React.Component {
 
     renderImage = () => {
         return this.state.paints.map((image, index) => {
-            return (<div className="paint" onClick={() => { this.openImageFullScreen(index) }} key={image.id}>
+            return (
+            <div className={this.state.loading ? "paint d-none" : "paint"} onClick={() => { this.openImageFullScreen(index) }} key={image.id}>
                 <div className='thumb'>
-                    <img onLoad={ this.onImageLoaded }className="img-thumbnail" src={image.url} alt={image.title} />
+                    <img onLoad={ this.onImageLoaded } className="img-thumbnail" src={image.url} alt={image.title} />
                 </div>
                 <div className="description">
                     <span>{image.title}</span>
                     <span>{image.xdim} x {image.ydim} cm</span>
                 </div>
-            </div>)
+            </div>);
         });
     }
 
@@ -123,9 +163,16 @@ class SelectedGallery extends React.Component {
                         <h2>{this.props.title}</h2>
 
                         {(this.state.error && !this.state.loading) && <div>Error!</div>}
-                        {(!this.state.error && !this.state.loading) && this.renderImage()}
+
+                        {(!this.state.error ) && this.renderImage()}
                         {(!this.state.error && !this.state.loading) && this.renderLightbox()}
+                        {(!this.state.error && !this.state.loading) && 
+                        <Paginator pages={this.state.pages} 
+                                   onPageChange={this.onPageChangeHandler} 
+                                   currentPage={this.state.currentPage} />}
+
                         {this.state.loading && <Loading fullPage={false} />}
+
                     </div>
                 </div>
             );
@@ -133,7 +180,4 @@ class SelectedGallery extends React.Component {
     }
 }
 
-
 export default SelectedGallery;
-
-
