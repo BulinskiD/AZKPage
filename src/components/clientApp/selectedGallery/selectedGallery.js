@@ -92,7 +92,7 @@ class SelectedGallery extends React.Component {
 
     componentDidUpdate(nextProps) {
         if (this.props.id !== nextProps.id) {
-            this.setState({loading: true, paints: []});
+            this.setState({loading: true, paints: [], currentPage: 1 });
             this.getPics();
         }
     }

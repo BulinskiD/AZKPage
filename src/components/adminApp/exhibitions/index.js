@@ -157,7 +157,7 @@ class ExhibitionsAdmin extends React.Component {
                         <label htmlFor="city">Miasto wystawy</label>
                         <input
                             value={this.state.city}
-                            onChange={(e) =>{this.errors.city = !(e.target.value.length > 2 && e.target.value.length < 30); 
+                            onChange={(e) =>{this.errors.city = !(e.target.value.length > 2 && e.target.value.length < 40); 
                                              this.setState({ city: e.target.value })}}
                             className="form-control"
                             name="city"

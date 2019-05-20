@@ -23,7 +23,7 @@ export default (props) => {
     }
     else
         return (
-            <div className="d-flex justify-content-center mt-4">
+            <div className="d-flex justify-content-center my-4">
                 <ul className="pagination">
                     {renderPaginator()}
                 </ul>

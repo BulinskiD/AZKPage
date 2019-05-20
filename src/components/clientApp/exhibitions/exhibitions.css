@@ -15,11 +15,11 @@
 
 
 .exhShape{
-position: absolute;
-width: 30%;
-height: 100%;
-clip-path: polygon(0% 20%, 0% 40%, 100% 100%);
-background: black;
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    clip-path: polygon(0% 20%, 0% 40%, 100% 100%);
+    background: black;
 }
 
 .exhibitions-container {
@@ -30,7 +30,7 @@ background: black;
     margin-top: -3%;
     margin-bottom: 2%;
     display: flex;
-    width: 80%;
+    width: 90%;
     justify-content: center;
 }
 

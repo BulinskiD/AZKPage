@@ -16,15 +16,15 @@ export default () => {
                 data-aos-duration="3000"></div>
             <div className="offset-lg-4 col-lg-8">
                 <h2>Biografia</h2>
-                <p>Urodziła się w Gorlicach 15 grudnia 1958 r. Absolwentka Liceum Ogólnokształcącego 
+                <p className='quote-content'>Urodziła się w Gorlicach 15 grudnia 1958 r. Absolwentka Liceum Ogólnokształcącego 
                     im. Marcina Kromera w Gorlicach. Studia w Instytucie Wychowania Artystycznego Uniwersytetu
                     Marii Curie-Skłodowskiej w Lublinie.&nbsp; Dyplom z grafiki warsztatowej w pracowni prof.
                     Danuty Kołwzan - Nowickiej w 1981 roku.<br />Mieszka i tworzy w Gorlicach.</p>
 
                 <div className='quote'>
-                    <p className='quote-content'><em>Prace Aliny Zachariasz - Kuciakowskiej cechuje tak rzadko, szczeg&oacute;lnie
+                    <p className='quote-content'>Prace Aliny Zachariasz - Kuciakowskiej cechuje tak rzadko, szczeg&oacute;lnie
                     obecnie, spotykane skupienie, oszczędność środk&oacute;w oraz synteza, kt&oacute;ra nie jest oschła, geometryczna,
-                    ale wrażliwie odrzucająca to, co nie służy pełnemu wyrazowi zawartemu w delikatności i niuansach cięcia.</em></p>
+                    ale wrażliwie odrzucająca to, co nie służy pełnemu wyrazowi zawartemu w delikatności i niuansach cięcia.</p>
 
                     <p className='quote-author'><strong>Prof. Danuta Kołwzan-Nowicka</strong></p>
                 </div>

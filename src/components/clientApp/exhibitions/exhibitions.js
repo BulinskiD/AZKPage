@@ -8,14 +8,13 @@ import './exhibitions.css';
 class Exhibitions extends React.Component{
     static contextType = FirebaseContext;
 
-
     //DB Reference
     exhGroupRef = this.context.firestore.collection("exhibitions").doc('group').collection('exhibitions');
     exhIndividualsRef = this.context.firestore.collection("exhibitions").doc('individuals').collection('exhibitions');
 
-    exhRef = this.exhGroupRef;
+    exhRef = this.exhIndividualsRef;
 
-    state={exhArray: [], loading: true, selectedExh: 'group'}
+    state={exhArray: [], loading: true, selectedExh: 'individual'}
 
     selectExh = (exh) =>{
         this.setState({loading: true});
@@ -60,8 +59,8 @@ class Exhibitions extends React.Component{
    
     renderTabs = () =>{
         return (<div className="tabs-nav">
-            <span className={this.state.selectedExh === 'group' ? 'selected' : ''} onClick={() => this.selectExh('group')}>Wystawy grupowe</span>
-            <span className={this.state.selectedExh === 'individual' ? 'selected' : ''} onClick={() => this.selectExh('individual')}>Wystawy indywidualne</span>
+              <span className={this.state.selectedExh === 'individual' ? 'selected' : ''} onClick={() => this.selectExh('individual')}>Wystawy indywidualne</span>
+              <span className={this.state.selectedExh === 'group' ? 'selected' : ''} onClick={() => this.selectExh('group')}>Wystawy grupowe</span>
         </div>);
     }
     render(){
