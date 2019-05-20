@@ -164,7 +164,7 @@ class SelectedGallery extends React.Component {
 
                         {(this.state.error && !this.state.loading) && <div>Error!</div>}
 
-                        {(!this.state.error ) && this.renderImage()}
+                        {(!this.state.error) && this.renderImage()}
                         {(!this.state.error && !this.state.loading) && this.renderLightbox()}
                         {(!this.state.error && !this.state.loading) && 
                         <Paginator pages={this.state.pages} 

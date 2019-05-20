@@ -1,11 +1,20 @@
 footer{
     margin-top: 10vmin;
-    background: #c0c0c0;
+    background: #333;
+    padding: 0 5%;
     min-height: 35vmin;
     font-family: Crimson Text;
-    color: grey;
+    color:#aaa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
 }
 
+.info-content{
+    height: 25vmin;
+    text-align: right;
+    justify-content: flex-end;
+}
 
 .footerInfo{
     margin-left: 10vmin;

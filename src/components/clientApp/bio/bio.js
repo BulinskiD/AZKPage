@@ -6,7 +6,7 @@ import 'aos/dist/aos.css';
 import './bio.css';
 
 
-export default ()=>{
+export default () => {
     AOS.init();
     return (
         <div id="bio">
@@ -16,11 +16,38 @@ export default ()=>{
                 data-aos-duration="3000"></div>
             <div className="offset-lg-4 col-lg-8">
                 <h2>Biografia</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula orci, sagittis vel orci eu, tristique egestas sapien. Aenean id porttitor odio. Maecenas ligula ex, rutrum ultricies scelerisque vitae, suscipit et nibh. Etiam rutrum turpis quis congue accumsan. Phasellus euismod imperdiet nulla, non pulvinar arcu pretium ut. In maximus enim a dolor eleifend, in efficitur magna facilisis. Cras ultrices justo sit amet enim dignissim sodales. Vivamus et justo lorem. Praesent semper in sapien vitae vulputate. Curabitur molestie massa at nisi commodo pellentesque. Suspendisse aliquam nec massa hendrerit facilisis. Pellentesque posuere lacinia velit, non condimentum felis rutrum ac. Fusce lectus nibh, feugiat id eros a, egestas placerat lorem. Pellentesque et tincidunt eros.
-                    Integer finibus, elit non pretium cursus, ligula enim scelerisque eros, ut imperdiet felis lorem quis eros. Duis felis metus, consectetur consequat venenatis ut, maximus nec neque. Mauris nec urna mauris. Aliquam a massa velit. Vestibulum ut turpis in tellus auctor euismod nec sit amet lacus. Maecenas suscipit justo erat, nec consectetur tellus scelerisque eget. Curabitur pellentesque ex sed ultrices ultricies. Praesent pulvinar tellus non viverra ullamcorper. Cras malesuada arcu orci, sit amet lacinia tellus fermentum sed. Ut non tempor urna. Phasellus a egestas elit. Ut nec velit ante. Morbi mattis, neque ut consequat bibendum, lacus odio egestas justo, sagittis facilisis sapien justo vitae neque.
-           </p> <p>Integer eu diam cursus, malesuada sapien sed, accumsan nisl. Nullam at augue vulputate risus tristique malesuada nec at nunc. Etiam sit amet diam sit amet arcu aliquet aliquam. In nec lectus nec nunc tincidunt malesuada sit amet a augue. Ut a massa urna. Sed fringilla ullamcorper tristique. Aliquam eu cursus metus, in faucibus arcu. Nunc placerat ligula nec eros scelerisque facilisis. Fusce sit amet aliquam leo, sit amet varius turpis. Sed a augue id lacus condimentum posuere. Aliquam ac tincidunt massa, in molestie nisl. Curabitur volutpat est id metus tempus, quis fringilla augue lobortis. Quisque id consequat diam. Mauris vestibulum efficitur augue non eleifend. Praesent sodales sapien id nisl tincidunt interdum.
-                 Duis condimentum mi non ex rutrum semper. Curabitur tristique, leo at congue rhoncus, urna est tristique arcu, quis convallis libero erat id urna. Praesent in erat non purus efficitur lacinia. Proin nec odio sit amet justo dictum bibendum. Duis id posuere arcu, nec accumsan tellus. Nam ultricies vestibulum urna blandit maximus. Pellentesque in neque non lectus congue accumsan id eu nunc. Nullam ut risus quis libero ultrices euismod. Cras magna erat, feugiat hendrerit nulla ut, ultrices fringilla ligula.
-        </p>
+                <p>Urodziła się w Gorlicach 15 grudnia 1958 r. Absolwentka Liceum Ogólnokształcącego 
+                    im. Marcina Kromera w Gorlicach. Studia w Instytucie Wychowania Artystycznego Uniwersytetu
+                    Marii Curie-Skłodowskiej w Lublinie.&nbsp; Dyplom z grafiki warsztatowej w pracowni prof.
+                    Danuty Kołwzan - Nowickiej w 1981 roku.<br />Mieszka i tworzy w Gorlicach.</p>
+
+                <div className='quote'>
+                    <p className='quote-content'><em>Prace Aliny Zachariasz - Kuciakowskiej cechuje tak rzadko, szczeg&oacute;lnie
+                    obecnie, spotykane skupienie, oszczędność środk&oacute;w oraz synteza, kt&oacute;ra nie jest oschła, geometryczna,
+                    ale wrażliwie odrzucająca to, co nie służy pełnemu wyrazowi zawartemu w delikatności i niuansach cięcia.</em></p>
+
+                    <p className='quote-author'><strong>Prof. Danuta Kołwzan-Nowicka</strong></p>
+                </div>
+
+                <div className='quote'>
+                    <p className='quote-content'>Autorka programowo odrzuca dosłowność, a także
+                                jednoznaczność zapisu zapraszając widza do dialogu, dyskusji,
+                                 interpretacji znaczeń. Emocje, refleksje autorki zawarte w pracach graficznych 
+                                 stają się emocjami oraz myślami odbiorcy.</p>
+                    <p className='quote-author'><strong>Prof. Grzegorz Mazurek</strong></p>
+                </div>
+                <p>W mojej twórczości pojawia się niezmiennie, od czasu studiów, w rysunkach i grafice, człowiek; ludzka egzystencja, kondycja psychiczna, lęki, trudności. Walka z własnymi słabościami, pokonywanie barier i zahamowań, bunt, upadki, ale też ich przezwyciężanie. Pojawia się w niej wreszcie motyw nieuchronności, dojrzewania i przemijania.</p>
+                <p>Fascynują mnie także drzewa - ich pnie, rodzaje kory, gałęzie - a więc niesamowite przyrodnicze faktury, przemiany i trwanie. Są one dla mnie uosobieniem ludzkiej natury, kojarzą mi się z naszą egzystencją i jej zawirowaniami, są świadkami nierozerwalnej więzi człowieka z naturą.</p>
+                <p>Mimo to, moja twórczość nie jest pozbawiona prac lżejszych i zdecydowanie weselszych. Tworzę pastele i akwarele z podr&oacute;ży bliskich i dalekich, powstałe z zachwytu przyrodą, zabytkami, fascynującymi miejscami, barwami, fakturami czy światłem, a więc tym wszystkim, co daje chęć do życia, radość i siłę.</p>
+                <p><strong>Grafika</strong> to linoryty odbijane zawsze ręcznie, nigdy nie odbijałam ich w prasie. Tnę małe płaszczyzny, drobnymi cięciami, starając&nbsp; się uzyskać&nbsp; jak najwięcej ciekawych faktur i odcieni. Choć teraz, &bdquo;przymusowo&rdquo; zrobiłam sobie od nich dłuższą przerwę, często grafika jest dla mnie wyznacznikiem mojej pracy tw&oacute;rczej...</p>
+                <p><strong>Rysunki </strong>są w tej chwili dla mnie najważniejsze, są zapisem moich przemyśleń, przeżyć, moją opowieścią o życiu. Za pomocą bieli i czerni poprzez całą gamę szarości uzyskanych r&oacute;żnej twardości oł&oacute;wkami można pokazać bardzo wiele. Ja staram się pokazać, jak potrafię, zapis moich przeżyć...</p>
+                <p><strong>Pastele </strong>zaczęły powstawać, kiedy przestałam robić linoryty - rysowane zwykle na czarnym papierze, początkowo były czarno-białe lub w szarościach. P&oacute;źniej zaczęłam wprowadzać kolory, ale stonowane&nbsp; &nbsp;Tłusta kredka w połączeniu z szorstką fakturą papieru daje chropowaty, nier&oacute;wny ślad, niczym malarstwo na bardzo grubo tkanym lnianym pł&oacute;tnie. Są to szkice, przerywniki, ćwiczenia i pomysły do dalszej pracy, a czasem samodzielne prace.</p>
+                <p><strong>Akwarele </strong>&ndash;są malarskim zapisem moich wędr&oacute;wek, malowane lekko , ponieważ zależy mi na świetlistości i lekkości. Chcę sprostać &nbsp;wymogom techniki &ndash; uzyskaniu lekkości i delikatności w nakładaniu barw na papier, pokazać ulotność chwili i kruchość zjawisk. Są to obecnie ćwiczenia, kt&oacute;re mam nadzieję, rozwiną się w poważniejsze wypowiedzi.<br /> W pracach z Sycylii chcę pokazać niezwykłe światło i soczyste barwy przy morzu, a nasycone ż&oacute;łcią i&nbsp;wszelkimi odcieniami brąz&oacute;w &nbsp;w głębi&nbsp; lądu. Fascynujące są pejzaże wok&oacute;ł Etny. Światło na południu jest&nbsp; wyzwaniem, jest sprawdzianem biegłości&hellip;</p>
+                <h5 className='quote-author font-italic'><strong>Alina Zachariasz - Kuciakowska</strong></h5>
+                <p>&nbsp;</p>
+
+
+
             </div>
         </div>
     );

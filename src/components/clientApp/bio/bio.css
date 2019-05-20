@@ -15,7 +15,7 @@
     width: 20%;
     top: 60%;
     left: 2%;
-    height: 30%;
+    height: 20%;
     clip-path: polygon(0% 20%, 80% 0%, 90% 100%);
     background: url('./img/alinka.JPG') no-repeat;
     background-size: cover;
@@ -35,7 +35,17 @@ h2+p, h2+div{
 
 p{
     text-align: justify;
-    padding: 2% 3% 2% 0%;
+    padding: .5% 1% .5% 0%;
+}
+
+.quote {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.quote-author {
+    text-align: right;
+    margin-bottom: 10%;
 }
 
 
@@ -47,5 +57,9 @@ p{
         padding: 2%;
         padding-top: 10vmin;
         padding-bottom: 0;
+    }
+    
+    .quote {
+        width: 80%;
     }
 }

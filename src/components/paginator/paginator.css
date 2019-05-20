@@ -1,0 +1,27 @@
+.paginator-background {
+    border: none;
+    color: rgba(0,0,0,0.5);
+    font-weight: 600;
+    font-size: 1.2em;
+    margin: 5px;
+    border-radius: 0!important;
+}
+
+.selected-page {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+
+}
+
+.page-item {
+    font-family: Crimson Text;
+}
+
+.page-item:hover .page-link { 
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
+
+.paginator-background:hover {
+    background-color: white;
+}

@@ -282,7 +282,7 @@ class PaintsAdmin extends React.Component {
                 <div className="form-group row">
                     <label htmlFor="xdim">Szerokość</label>
                     <input className="form-control" onChange={(e) => {
-                        this.formErrors.ydim = e.target.value < 50 || e.target.value > 10000;
+                        this.formErrors.ydim = e.target.value < 20 || e.target.value > 10000;
                         this.setState({ xdim: e.target.value })
                     }}
                         value={this.state.xdim} type='text' name='xdim' />
@@ -290,7 +290,7 @@ class PaintsAdmin extends React.Component {
                 <div className="form-group row">
                     <label htmlFor="ydim">Wysokość</label>
                     <input className="form-control" onChange={(e) => {
-                        this.formErrors.ydim  = e.target.value < 50 || e.target.value > 10000;
+                        this.formErrors.ydim  = e.target.value < 20 || e.target.value > 10000;
                         this.setState({ ydim: e.target.value })
                     }}
                         value={this.state.ydim} type='text' name='ydim' />
