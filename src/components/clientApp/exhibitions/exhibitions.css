@@ -22,7 +22,29 @@ clip-path: polygon(0% 20%, 0% 40%, 100% 100%);
 background: black;
 }
 
+.exhibitions-container {
+    min-height: 100vh;
+}
 
+.tabs-nav {
+    margin-top: -3%;
+    margin-bottom: 2%;
+    display: flex;
+    width: 80%;
+    justify-content: center;
+}
+
+.tabs-nav span {
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 1%;
+    margin: 1%;
+}
+
+.selected, .tabs-nav span:hover {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
 
 .exhShapeRight{
     position: absolute;

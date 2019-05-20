@@ -10,14 +10,22 @@ class ExhibitionsAdmin extends React.Component {
     static contextType = FirebaseContext;
     
     //DB Reference
-    exhRef = this.context.firestore.collection("exhibitions");
+    exhGroupRef = this.context.firestore.collection("exhibitions").doc('group').collection('exhibitions');
+    exhIndividualsRef = this.context.firestore.collection("exhibitions").doc('individuals').collection('exhibitions');
 
+    exhRef = this.exhGroupRef;
     state = { exhibitions: null, error: null, city: '', place: '', date: '', id: null, loading: true };
 
     //Errors object, which is sended to Modal Form
     errors = { place: null, city: null, date: null};
 
-    async componentDidMount() {
+    selectExh = (exh) =>{
+        this.setState({loading: true});
+        this.exhRef = exh === 'group' ? this.exhGroupRef : this.exhIndividualsRef; 
+        this.fetchExh();
+    }
+
+    fetchExh = async () => {
         try {
             const resp = await this.exhRef.orderBy('date', 'desc').get();
             let exhArray = resp.docs.map(exh => {
@@ -32,6 +40,10 @@ class ExhibitionsAdmin extends React.Component {
                 //No exh available
             }
         }
+    }
+
+    componentDidMount() {
+        this.fetchExh();
     }
 
     deleteExh = async (exh) => {
@@ -180,6 +192,10 @@ class ExhibitionsAdmin extends React.Component {
 
     render() {
         return (<div className="admin-page-content">
+            <div className="tabs">
+                <button onClick={() => this.selectExh('group')}>Group</button>
+                <button onClick={() => this.selectExh('individual')}>Indi</button>
+            </div>
             {this.renderModal()}
             {this.renderExhList()}
             {this.state.loading && ReactDOM.createPortal(<Loading fullPage={true} />, document.querySelector("body"))}
