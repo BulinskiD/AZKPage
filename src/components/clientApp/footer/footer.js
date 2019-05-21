@@ -15,7 +15,7 @@ export default ()=>{
             <div className="info-content d-flex flex-row justify-content-around w-100 align-items-around flex-md-column">
                 <span>Alina Zachariasz-Kuciakowska &copy; <br /> 
                 Wszelkie prawa zastrzeżone.</span>
-                <span>Projekt graficzny: <br />Eliza Kuciakowska
+                <span className = "d-none d-md-inline ">Projekt graficzny: <br />Eliza Kuciakowska
                       <br />Wykonanie: <br />Dawid Buliński </span>
             </div>
         </footer>
